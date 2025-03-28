@@ -3,11 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynapsDX_MI</title>
-    <link rel="stylesheet" href="css/styles.css">
-    </head>
+    <title>Sample Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .sample-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
 <body>
-    <h1>Content Goes Here</h1>
-    <script src="js/script.js"></script>
+    <div class="form-container">
+        <h2>Enter Sample ID</h2>
+        <form id="sampleForm">
+            <label for="sampleId">Sample ID:</label>
+            <input type="text" id="sampleId" name="sampleId" required>
+            <button type="submit">Get Sample Info</button>
+        </form>
+        <div class="sample-info" id="sampleInfo"></div>
+    </div>
+
+    <script>
+        document.getElementById('sampleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const sampleId = document.getElementById('sampleId').value;
+            const sampleInfo = document.getElementById('sampleInfo');
+
+            // Simulate fetching sample information
+            const sampleData = {
+                '123': 'Sample 123: This is a test sample.',
+                '456': 'Sample 456: This is another test sample.',
+                '789': 'Sample 789: This is yet another test sample.'
+            };
+
+            if (sampleData[sampleId]) {
+                sampleInfo.textContent = sampleData[sampleId];
+            } else {
+                sampleInfo.textContent = 'Sample not found.';
+            }
+        });
+    </script>
 </body>
 </html>
