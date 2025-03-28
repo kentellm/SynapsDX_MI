@@ -5,9 +5,9 @@ document.getElementById('sampleForm').addEventListener('submit', function(event)
 
             // Simulate fetching sample information
             const sampleData = {
-                '123': 'Sample 123: This is a test sample.',
-                '456': 'Sample 456: This is another test sample.',
-                '789': 'Sample 789: This is yet another test sample.'
+                '538': 'Sample 538: This is a positive control.',
+                '564': 'Sample 564: This is another test sample.',
+                '1': 'Sample 1: This is a test sample.'
             };
 
             if (sampleData[sampleId]) {
