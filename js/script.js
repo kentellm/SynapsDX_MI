@@ -1,3 +1,8 @@
+import { Amplify } from 'aws-amplify';
+import config from './aws-exports.js';
+
+Amplify.configure(config)
+
 document.getElementById("sampleForm").addEventListener("submit", function(event) {
     event.preventDefault();
     const sampleId = document.getElementById("sampleId").value;
