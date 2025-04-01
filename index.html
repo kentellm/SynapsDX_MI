@@ -6,6 +6,7 @@
     <title>Sample Information</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/script.js"></script>
 </head>
 <body>
@@ -20,7 +21,9 @@
     </div>
     <div class="dashboard" id="dashboard" style="display:none;">
         <h2>Dashboard</h2>
-        <div class="panel" id="panel1">Panel 1</div>
+        <div class="panel" id="panel1">
+           <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
         <div class="panel" id="panel2">Panel 2</div>
         <div class="panel" id="panel3">Panel 3</div>
         <div class="panel" id="panel4">Panel 4</div>
