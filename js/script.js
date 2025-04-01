@@ -15,7 +15,7 @@ document.getElementById("sampleForm").addEventListener("submit", function(event)
 function fetchSampleData(sampleId) {
     // Simulate fetching data (you can replace this with an actual API call)
     const sampleData = {
-        panel1: "Data for Panel 1",
+        panel1: [0,2,4,8,16,32,64,80,80,80],
         panel2: "Data for Panel 2",
         panel3: "Data for Panel 3",
         panel4: "Data for Panel 4",
