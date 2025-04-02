@@ -1,36 +1,85 @@
-import { Amplify } from 'aws-amplify';
-import config from './aws-exports.js';
+document.getElementById('sampleForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    const sampleId = document.getElementById('sampleId').value;
 
-Amplify.configure(config)
-
-document.getElementById("sampleForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const sampleId = document.getElementById("sampleId").value;
-    if (sampleId) {
-        // Fetch sample data based on sampleId
-        fetchSampleData(sampleId);
-    }
-});
-
-function fetchSampleData(sampleId) {
-    // Simulate fetching data (you can replace this with an actual API call)
-    const sampleData = {
-        panel1: [0,2,4,8,16,32,64,80,80,80],
-        panel2: "Data for Panel 2",
-        panel3: "Data for Panel 3",
-        panel4: "Data for Panel 4",
-        panel5: "Data for Panel 5",
-        panel6: "Data for Panel 6"
+    // Example data
+    const exampleData = {
+        '538': {
+            name: 'Sample 538',
+            date: '2025-04-01',
+            status: 'Active',
+            location: 'Cell Culture',
+            type: 'Positive Control',
+            notes: 'No issues',
+            chartData: {
+                labels: ['2025-04-01', '2025-04-02', '2025-04-03', '2025-04-04', '2025-04-05', '2025-04-06', '2025-04-07'],
+                values: [0, 2, 4, 8, 16, 32, 70]
+            }
+        },
+        '564': {
+            name: 'Sample 564',
+            date: '2025-03-15',
+            status: 'Inactive',
+            location: 'Assays',
+            type: 'Negative Control',
+            notes: 'Requires further analysis',
+            chartData: {
+                labels: ['2025-03-15', '2025-03-16', '2025-03-17', '2025-03-18', '2025-03-19', '2025-03-20', '2025-03-21'],
+                values: [0, 2, 16, 50, 80, 80, 85]
+            }
+        }
     };
 
-    // Update the dashboard with sample data
-    document.getElementById("panel1").innerText = sampleData.panel1;
-    document.getElementById("panel2").innerText = sampleData.panel2;
-    document.getElementById("panel3").innerText = sampleData.panel3;
-    document.getElementById("panel4").innerText = sampleData.panel4;
-    document.getElementById("panel5").innerText = sampleData.panel5;
-    document.getElementById("panel6").innerText = sampleData.panel6;
+    // Get the sample info based on the sample ID
+    const sampleInfo = exampleData[sampleId];
 
-    // Show the dashboard
-    document.getElementById("dashboard").style.display = "block";
-}
+    // Display the sample info
+    const sampleInfoDiv = document.getElementById('sampleInfo');
+    sampleInfoDiv.innerHTML = '';
+
+    if (sampleInfo) {
+        sampleInfoDiv.innerHTML = `
+            <p><strong>Name:</strong> ${sampleInfo.name}</p>
+            <p><strong>Date:</strong> ${sampleInfo.date}</p>
+            <p><strong>Status:</strong> ${sampleInfo.status}</p>
+            <p><strong>Location:</strong> ${sampleInfo.location}</p>
+            <p><strong>Type:</strong> ${sampleInfo.type}</p>
+            <p><strong>Notes:</strong> ${sampleInfo.notes}</p>
+        `;
+
+        // Create the chart
+        const ctx = document.getElementById('sampleChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sampleInfo.chartData.labels,
+                datasets: [{
+                    label: `${sampleInfo.name} Data`,
+                    data: sampleInfo.chartData.values,
+                    borderColor: '#007BFF',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+              			xAxis: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }],
+                    yAxis: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        
+    } else {
+        sampleInfoDiv.innerHTML = '<p>Sample ID not found.</p>';
+        document.getElementById('sampleChart').style.display = 'none';
+    }
+});
