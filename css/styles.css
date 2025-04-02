@@ -1,50 +1,49 @@
 body {
-    background-color: #e0f7fa; /* Light blue background */
-    color: #01579b; /* Dark blue text */
     font-family: Arial, sans-serif;
-}
-
-h2 {
-    color: #0288d1; /* Blue heading */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 .form-container {
-    background-color: #ffffff;
-    border: 2px solid #0288d1; /* Blue border */
+    width: 400px;
+    margin: 50px auto;
     padding: 20px;
-    border-radius: 8px;
+    background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
 input[type="text"] {
-    border: 2px solid #0288d1; /* Blue border */
-    border-radius: 4px;
-    padding: 10px;
     width: 100%;
-    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
-    background-color: #0288d1; /* Blue button */
-    color: #ffffff;
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
     border: none;
     border-radius: 4px;
-    padding: 10px 20px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0277bd; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
-.panel {
-    background-color: #ffffff;
-    border: 2px solid #0288d1; /* Blue border */
-    padding: 20px;
-    margin: 10px 0;
-    border-radius: 8px;
-}
-
-.dashboard {
+.sample-info {
     margin-top: 20px;
 }
