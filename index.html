@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Information</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="form-container">
@@ -18,17 +17,7 @@
             <button type="submit">Get Sample Info</button>
         </form>
         <div class="sample-info" id="sampleInfo"></div>
-    </div>
-    <div class="dashboard" id="dashboard" style="display:none;">
-        <h2>Dashboard</h2>
-        <div class="panel" id="panel1">
-           <canvas id="myChart" width="400" height="200"></canvas>
-        </div>
-        <div class="panel" id="panel2">Panel 2</div>
-        <div class="panel" id="panel3">Panel 3</div>
-        <div class="panel" id="panel4">Panel 4</div>
-        <div class="panel" id="panel5">Panel 5</div>
-        <div class="panel" id="panel6">Panel 6</div>
+        <canvas id="sampleChart" width="400" height="200"></canvas>
     </div>
 </body>
 </html>
