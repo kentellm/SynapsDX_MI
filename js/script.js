@@ -25,7 +25,7 @@ document.getElementById('sampleForm').addEventListener('submit', function(event)
             notes: 'Requires further analysis',
             chartData: {
                 labels: ['2025-03-15', '2025-03-16', '2025-03-17', '2025-03-18', '2025-03-19', '2025-03-20', '2025-03-21'],
-                values: [15, 25, 35, 45, 55, 65, 75]
+                values: [15, 25, 35, 45, 75, 88, 90]
             }
         }
     };
