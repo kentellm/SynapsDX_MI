@@ -62,19 +62,6 @@ document.getElementById('sampleForm').addEventListener('submit', function(event)
             },
             options: {
                 responsive: true,
-                scales: {
-              			xAxis: [{
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    }],
-                    yAxis: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
             }
         });
         
