@@ -1,0 +1,70 @@
+Private Sub Workbook_NewSheet(ByVal Sh As Object)
+    ' Check if the new sheet name matches the pattern
+    If Sh.Name Like "Result sheet (*)" Then
+        ' Call the macro to process the new sheet
+        Call ProcessNewResultSheet(Sh)
+    End If
+End Sub
+
+Sub ProcessNewResultSheet(ws As Worksheet)
+    Dim wsSummary As Worksheet
+    Dim i As Integer
+    Dim data As String
+    
+    Set wsSummary = Sheets("Summary")
+    
+    ' Find the next empty row in the Summary sheet
+    i = wsSummary.Cells(wsSummary.Rows.Count, "A").End(xlUp).Row + 1
+    
+    ' Copy and paste data from the new Result sheet
+    ws.Range("A14").Copy
+    wsSummary.Range("A" & i).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("E14").Copy
+    wsSummary.Range("B" & i).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("A40").Copy
+    wsSummary.Range("A" & (i + 1)).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("E40").Copy
+    wsSummary.Range("B" & (i + 1)).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("A75").Copy
+    wsSummary.Range("A" & (i + 2)).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("B77:D77").Copy
+    wsSummary.Range("B" & (i + 2) & ":D" & (i + 2)).PasteSpecial Paste:=xlPasteAll
+    
+    ws.Range("B78:D78").Copy
+    wsSummary.Range("E" & (i + 2) & ":G" & (i + 2)).PasteSpecial Paste:=xlPasteAll
+    
+    Application.CutCopyMode = False ' Clear the clipboard
+    
+    ' Prepare data to send to monday.com API
+    data = "{""query"":""mutation { create_item (board_id: 123456789, item_name: ""New Item"", column_values: ""{\""a14\"":\"" & ws.Range("A14").Value & \"" , \""e14\"":\"" & ws.Range("E14").Value & \"" , \""a40\"":\"" & ws.Range("A40").Value & \"" , \""e40\"":\"" & ws.Range("E40").Value & \"" , \""a75\"":\"" & ws.Range("A75").Value & \"" , \""b77_d77\"":\"" & ws.Range("B77:D77").Value & \"" , \""b78_d78\"":\"" & ws.Range("B78:D78").Value & \""}"") { id } }""}"
+    
+    ' Send data to monday.com API
+    Call SendToMondayAPI(data)
+End Sub
+
+Sub SendToMondayAPI(data As String)
+    Dim xmlhttp As Object
+    Set xmlhttp = CreateObject("MSXML2.XMLHTTP")
+    
+    Dim url As String
+    url = "https://api.monday.com/v2"
+    
+    Dim apiKey As String
+    apiKey = "YOUR_API_KEY_HERE"
+    
+    xmlhttp.Open "POST", url, False
+    xmlhttp.setRequestHeader "Authorization", apiKey
+    xmlhttp.setRequestHeader "Content-Type", "application/json"
+    xmlhttp.send data
+    
+    If xmlhttp.Status = 200 Then
+        MsgBox "Data sent successfully!"
+    Else
+        MsgBox "Failed to send data. Status: " & xmlhttp.Status
+    End If
+End Sub
