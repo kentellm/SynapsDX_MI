@@ -1,0 +1,59 @@
+Public RunWhen As Double
+Const cRunIntervalSeconds = 5 ' Check every 5 seconds
+Const cRunWhat = "CheckAndSendData"
+
+Sub StartTimer()
+    RunWhen = Now + TimeSerial(0, 0, cRunIntervalSeconds)
+    Application.OnTime EarliestTime:=RunWhen, Procedure:=cRunWhat, Schedule:=True
+End Sub
+
+Sub CheckAndSendData()
+    ' Check if the file or data exists
+    Dim FilePath As String
+    FilePath = "C:\path\to\exported_file.xlsx"
+    
+    If Dir(FilePath) <> "" Then
+        ' Open the workbook and extract data
+        Dim wb As Workbook
+        Set wb = Workbooks.Open(FilePath)
+        Dim ws As Worksheet
+        Set ws = wb.Sheets(1)
+        
+        ' Example: Send first cell to Monday.com
+        Dim data As String
+        data = ws.Cells(1, 1).Value
+        Call SendToMonday(data)
+        
+        wb.Close SaveChanges:=False
+    End If
+    
+    ' Reschedule the timer
+    StartTimer
+End Sub
+
+Sub SendToMonday(data As String)
+    ' Use VBA HTTP request (e.g., MSXML2.XMLHTTP)
+    Dim http As Object
+    Set http = CreateObject("MSXML2.XMLHTTP")
+    Dim url As String
+    url = "https://api.monday.com/v2"
+    Dim apiKey As String
+    apiKey = "YOUR_MONDAY_API_KEY"
+    Dim payload As String
+    payload = "{""query"": ""mutation { create_item (board_id: YOUR_BOARD_ID, item_name: \""New Data\"", column_values: \""{\\\""text\\\"": \\\""" & data & \\\""}\""}) { id } }""}"
+    
+    With http
+        .Open "POST", url, False
+        .setRequestHeader "Authorization", apiKey
+        .setRequestHeader "Content-Type", "application/json"
+        .send payload
+    End With
+    
+    MsgBox http.responseText ' For debugging
+End Sub
+
+Sub StopTimer()
+    Application.OnTime EarliestTime:=RunWhen, Procedure:=cRunWhat, Schedule:=False
+End Sub
+
+
