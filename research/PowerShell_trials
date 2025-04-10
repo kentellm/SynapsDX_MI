@@ -1,0 +1,9 @@
+$filePath = "C:\path\to\exported_file.xlsx"
+if (Test-Path $filePath) {
+    $data = Import-Excel -Path $filePath | ConvertTo-Json
+    $apiKey = "YOUR_MONDAY_API_KEY"
+    $url = "https://api.monday.com/v2"
+    $headers = @{ "Authorization" = $apiKey; "Content-Type" = "application/json" }
+    $body = @{ "query" = "mutation { create_item (board_id: YOUR_BOARD_ID, item_name: 'New Data', column_values: '{\""text\"": \"" + $data + "\"}') { id } }" } | ConvertTo-Json
+    Invoke-RestMethod -Uri $url -Method Post -Headers $headers -Body $body
+}
