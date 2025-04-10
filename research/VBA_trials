@@ -56,4 +56,38 @@ Sub StopTimer()
     Application.OnTime EarliestTime:=RunWhen, Procedure:=cRunWhat, Schedule:=False
 End Sub
 
+Function SheetCount() As Long
+    Application.Volatile
+    SheetCount = ThisWorkbook.Sheets.Count
+End Function
 
+Public NextUpdate As Date
+
+Sub StartAutoUpdate()
+    ' Schedule the update to run every 30 seconds
+    NextUpdate = Now + TimeValue("00:00:30")
+    Application.OnTime NextUpdate, "UpdateSheetCount"
+End Sub
+
+Sub UpdateSheetCount()
+    ' Force recalculation of the workbook
+    Application.Calculate
+    ' Schedule the next update
+    NextUpdate = Now + TimeValue("00:00:30")
+    Application.OnTime NextUpdate, "UpdateSheetCount"
+End Sub
+
+Sub StopAutoUpdate()
+    ' Stop the scheduled updates
+    On Error Resume Next
+    Application.OnTime NextUpdate, "UpdateSheetCount", , False
+    On Error GoTo 0
+End Sub
+
+Private Sub Workbook_Open()
+    Call StartAutoUpdate
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    Call StopAutoUpdate
+End Sub
